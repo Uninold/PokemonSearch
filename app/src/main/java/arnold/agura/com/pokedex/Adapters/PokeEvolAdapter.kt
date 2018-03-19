@@ -14,6 +14,7 @@ import arnold.agura.com.pokedex.Models.EvolPokemon
 import arnold.agura.com.pokedex.Models.Pokemonize
 import arnold.agura.com.pokedex.R
 import com.bumptech.glide.Glide
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.poke_evolution.view.*
 import kotlinx.android.synthetic.main.poke_stat.view.*
 import kotlinx.android.synthetic.main.pokemon_main.view.*
@@ -27,9 +28,12 @@ class PokeEvolAdapter(private val mContext: Context, var pokemonEvolList: ArrayL
         var pokeStatStart = 0
         holder?.itemView?.txtPokeName?.text = pokemon.name
         val pokemonImage = holder?.itemView.pokemonImage
-        Glide.with(holder?.itemView.context).load(pokemon.sprites.front_default).into(pokemonImage)
+        if(pokemon.sprites.front_default != null) {
+//            Picasso.with(holder?.itemView?.context).load(pokemon.sprites.front_default).into(pokemonImage)
+        }
         if(position > 0)
         {
+
             holder?.itemView?.txtlevel?.text = pokemon.evolDetails.minLevel.toString()
             holder?.itemView?.linearViewLevel?.visibility = VISIBLE
 

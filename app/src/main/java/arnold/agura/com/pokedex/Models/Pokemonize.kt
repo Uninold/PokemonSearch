@@ -19,7 +19,21 @@ data class Pokemon (
         var weight: Int,
         var height: Int,
         var types : ArrayList<Types>,
-        var stats : ArrayList<Stats>
+        var stats : ArrayList<Stats>,
+        var abilities : ArrayList<Abilities>
+)
+data class Abilities(
+        var ability : Ability
+)
+data class Ability(
+        var url : String
+)
+data class PokeAbility(
+        var name: String,
+        @SerializedName("effect_entries") var effect : ArrayList<Effect>
+)
+data class Effect(
+        var effect: String
 )
 data class Stats(
         var stat: Stat,

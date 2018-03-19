@@ -24,9 +24,9 @@
             android:layout_width="167dp"
             android:layout_height="158dp"
             android:layout_alignParentTop="true"
-            app:srcCompat="@mipmap/ic_launcher"
 
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            app:srcCompat="@mipmap/ic_launcher" />
 
         <TextView
             android:layout_marginLeft="30dp"
@@ -41,7 +41,7 @@
         <TextView
             android:id="@+id/txtPokeId"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignBottom="@id/pokeImg"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/montserrat"
@@ -113,12 +113,25 @@
             android:layout_below="@id/txtWeight"
             android:text="WEIGHT"
             android:textAlignment="center" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ecf0f1"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/lblWeight"/>
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/progress2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
+        android:layout_height="wrap_content"
+        android:layout_marginTop="250dp" />
+    <TextView
+        android:id="@+id/progresstxt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loading pokemon details..... "
+        android:textAlignment="center"/>
     <RelativeLayout
         android:id="@+id/relative2"
         android:layout_width="match_parent"
@@ -173,7 +186,25 @@
             android:layout_below="@id/txtHabitat"
             android:text="HABITAT"
             android:textAlignment="center" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ecf0f1"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/lblHabitat"/>
     </RelativeLayout>
+
+        <TextView
+            android:id="@+id/lblAbility"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABILITIES"
+            android:textAlignment="center"
+            android:fontFamily="@font/montserrat"
+            android:textSize="20dp"
+            android:visibility="gone"
+            android:textStyle="bold"/>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewStat"
         android:layout_width="match_parent"
@@ -181,6 +212,10 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_abilities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewEvol"

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.AlarmClock.EXTRA_MESSAGE
 import android.support.v4.app.ActivityCompat.startActivityForResult
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -62,10 +63,13 @@ class MainActivity : AppCompatActivity() {
                         runOnUiThread{
                             pokemonList.add(Pokemonize(pokemon.id, pokemon.name, Sprites(pokemon.sprites.front_default)))
                             recyclerView_pokemon.layoutManager = LinearLayoutManager(this@MainActivity)
+
                             recyclerView_pokemon.adapter = PokemonAdapter(this@MainActivity,pokemonList, this@MainActivity)
 
-                            if(pokemonList.size == 20){
+
+                            if(pokemonList.size > 0){
                                 progressBar.visibility = View.GONE
+                                txtprogress.visibility = View.GONE
                             }
                         }
 

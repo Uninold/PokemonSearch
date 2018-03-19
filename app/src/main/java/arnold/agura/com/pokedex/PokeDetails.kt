@@ -26,6 +26,9 @@ import java.io.IOException
 import java.net.URL
 import java.util.*
 import kotlin.collections.ArrayList
+import android.support.v7.widget.DividerItemDecoration
+import arnold.agura.com.pokedex.Adapters.AbilitiesAdapter
+
 
 /**
  * Created by Arnold on 18 Mar 2018.
@@ -34,9 +37,10 @@ class PokeDetails : AppCompatActivity() {
 
 
     private val mTag = "PokeApi"
-    private var pokemon = Pokemon(0,"", Sprites(""),0,0,ArrayList(),ArrayList())
+    private var pokemon = Pokemon(0,"", Sprites(""),0,0,ArrayList(),ArrayList(), ArrayList())
     private var pokemonEvolution = ArrayList<EvolPokemon>()
-    private var pokemonSprite =Pokemon(0,"", Sprites(""),0,0,ArrayList(),ArrayList())
+    private var pokemonAbility = ArrayList<PokeAbility>()
+     var pokemonSprite =Pokemon(0,"", Sprites(""),0,0,ArrayList(),ArrayList(), ArrayList())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.poke_details)
@@ -56,24 +60,24 @@ class PokeDetails : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call?, e: IOException?) {
-                Log.e(mTag,"orayt wa ni sod ", e)
+                fetchPokemons(pokename)
             }
 
             override fun onResponse(call: Call?, response: Response?) {
                 if(response !=null && response.isSuccessful)
                 {
-
                     val json = response.body()?.string()
                     val gson = GsonBuilder().create()
                     pokemon =  gson.fromJson(json, Pokemon::class.java)
                     fetchSpecies(pokemon.name)
+                    fetchAbilities(pokemon.abilities)
                     runOnUiThread{
+                        progresstxt.visibility = View.GONE
                         progress2.visibility = View.GONE
                         relativeDetail.visibility = View.VISIBLE
                         relative1.visibility = View.VISIBLE
                         relative2.visibility = View.VISIBLE
                         val oray = pokemon.name
-                        println(pokemon.toString())
                         txtPokeName.text = pokemon.name.substring(0,1).toUpperCase() + pokemon.name.substring(1)
                         txtHeight.text = pokemon.height.toString()
                         txtWeight.text = pokemon.weight.toString()
@@ -83,7 +87,6 @@ class PokeDetails : AppCompatActivity() {
                         val adapter = PokeTypeAdapter(this@PokeDetails, pokemon.types)
                         if(pokemon.types.size ==1) {
                             val layoutManager = GridLayoutManager(this@PokeDetails, 1)
-
                             recyclerview.adapter = adapter
                             recyclerview.layoutManager = layoutManager
                         }
@@ -105,16 +108,12 @@ class PokeDetails : AppCompatActivity() {
 
                         recyclerviewStat.adapter = adapterStat
                         recyclerviewStat.layoutManager = layoutManagerStat
-
-
                     }
-
                 }
                 else{
 
                 }
             }
-
         })
     }
     private fun fetchSpecies(pokename: String)
@@ -125,7 +124,7 @@ class PokeDetails : AppCompatActivity() {
 
         clientSpecies.newCall(requestSpecies).enqueue(object :Callback{
             override fun onFailure(call: Call?, e: IOException?) {
-
+                fetchSpecies(pokename)
             }
 
             override fun onResponse(call: Call?, response: Response?) {
@@ -137,13 +136,47 @@ class PokeDetails : AppCompatActivity() {
                     fetchPokemonsEvolution(species.evolChain.url)
                     runOnUiThread{
                       txtCapture.text = species.captureRate.toString()
-                        txtHabitat.text = species.habitat.name
+                        txtHabitat.text = species.habitat.name.substring(0,1).toUpperCase() + species.habitat.name.substring(1)
                     }
                 }
 
             }
 
         })
+
+    }
+    private fun fetchAbilities(pokeAbilities: ArrayList<Abilities>)
+    {
+        for(i in pokeAbilities)
+        {
+        val urlAbility =  i.ability.url
+        val requestAbility = okhttp3.Request.Builder().url(urlAbility).build()
+        val clientAbility = OkHttpClient()
+
+        clientAbility.newCall(requestAbility).enqueue(object :Callback{
+            override fun onFailure(call: Call?, e: IOException?) {
+            }
+
+            override fun onResponse(call: Call?, response: Response?) {
+                if(response !=null && response.isSuccessful) {
+                    val json = response.body()?.string()
+                    val gsonSpecies = GsonBuilder().create()
+                    val abilities =  gsonSpecies.fromJson(json, PokeAbility::class.java)
+                        pokemonAbility.add(abilities)
+                    runOnUiThread{
+                        lblAbility.visibility = View.VISIBLE
+                        val adapterAbil = AbilitiesAdapter(this@PokeDetails, pokemonAbility)
+                        val layoutManagerAbil = LinearLayoutManager(this@PokeDetails)
+
+                        recyclerView_abilities.adapter = adapterAbil
+                        recyclerView_abilities.layoutManager = layoutManagerAbil
+                    }
+                }
+
+            }
+
+        })
+        }
 
     }
      fun fetchPokemonsEvolution(url: URL){
@@ -153,7 +186,7 @@ class PokeDetails : AppCompatActivity() {
 
         clientevo.newCall(requestevo).enqueue(object : Callback {
             override fun onFailure(call: Call?, e: IOException?) {
-                Log.e(mTag,"orayt wa ni sod sud ika duha ", e)
+               fetchPokemonsEvolution(url)
             }
 
             override fun onResponse(call: Call?, response: Response?) {
@@ -170,15 +203,11 @@ class PokeDetails : AppCompatActivity() {
                         var pokelevel = pokevolution.chain.evolveTo.get(0).evolDetails.get(0).minLevel
                         var pokemonfirst = EvolPokemon(pokename, Sprites(pokemonSprite.sprites.front_default),EvolDetails(pokelevel))
                         pokemonEvolution.add(pokemonfirst)
-
-
-
                     runOnUiThread{
+                        println("helloasdasd"+pokemonSprite.sprites.front_default)
                         val adapter = PokeEvolAdapter(this@PokeDetails, pokemonEvolution)
                         if(pokemonEvolution.size>1) {
                             var layoutManager = GridLayoutManager(this@PokeDetails, 3)
-                            println(pokemonSprite.sprites.front_default)
-                            println(pokemonEvolution)
                             recyclerviewEvol.adapter = adapter
                             recyclerviewEvol.layoutManager = layoutManager
                         }
@@ -193,10 +222,9 @@ class PokeDetails : AppCompatActivity() {
         val url =  "https://pokeapi.co/api/v2/pokemon/$pokename/"
         val request = okhttp3.Request.Builder().url(url).build()
         val client = OkHttpClient()
-        var pokeSprite = Pokemon(0,"", Sprites(""),0,0,ArrayList(),ArrayList())
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call?, e: IOException?) {
-                Log.e(mTag,"orayt wa ni sod ", e)
+                fetchSprite(pokename)
             }
 
             override fun onResponse(call: Call?, response: Response?) {
@@ -207,7 +235,6 @@ class PokeDetails : AppCompatActivity() {
                     pokemonSprite =  gson.fromJson(json, Pokemon::class.java)
 
                     runOnUiThread{
-                     println(pokemonSprite)
                     }
                 }
             }
