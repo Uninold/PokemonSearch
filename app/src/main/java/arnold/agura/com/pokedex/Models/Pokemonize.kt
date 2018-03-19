@@ -87,6 +87,10 @@ data class SpeciesEvo(
 )
 data class EvolPokemon(
         var name: String,
+        var evolDetails: EvolDetails
+)
+data class EvolPokemonSprite(
+        var name: String,
         var sprites: Sprites,
         var evolDetails: EvolDetails
 )

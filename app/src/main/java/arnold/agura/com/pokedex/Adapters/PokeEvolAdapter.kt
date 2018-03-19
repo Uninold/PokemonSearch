@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import arnold.agura.com.pokedex.MainActivity
 import arnold.agura.com.pokedex.Models.EvolPokemon
+import arnold.agura.com.pokedex.Models.EvolPokemonSprite
 import arnold.agura.com.pokedex.Models.Pokemonize
 import arnold.agura.com.pokedex.R
 import com.bumptech.glide.Glide
@@ -22,21 +23,18 @@ import kotlinx.android.synthetic.main.pokemon_main.view.*
 /**
  * Created by Arnold on 19 Mar 2018.
  */
-class PokeEvolAdapter(private val mContext: Context, var pokemonEvolList: ArrayList<EvolPokemon>): RecyclerView.Adapter<PokeEvolAdapter.ViewHolder>() {
+class PokeEvolAdapter(private val mContext: Context, var pokemonEvolList: ArrayList<EvolPokemonSprite>): RecyclerView.Adapter<PokeEvolAdapter.ViewHolder>() {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val pokemon = pokemonEvolList[position]
-        var pokeStatStart = 0
         holder?.itemView?.txtPokeName?.text = pokemon.name
         val pokemonImage = holder?.itemView.pokemonImage
         if(pokemon.sprites.front_default != null) {
-//            Picasso.with(holder?.itemView?.context).load(pokemon.sprites.front_default).into(pokemonImage)
+         Picasso.with(holder?.itemView?.context).load(pokemon.sprites.front_default).into(pokemonImage)
         }
         if(position > 0)
         {
-
             holder?.itemView?.txtlevel?.text = pokemon.evolDetails.minLevel.toString()
             holder?.itemView?.linearViewLevel?.visibility = VISIBLE
-
         }
 
     }

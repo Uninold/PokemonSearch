@@ -67,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                             recyclerView_pokemon.adapter = PokemonAdapter(this@MainActivity,pokemonList, this@MainActivity)
 
 
-                            if(pokemonList.size > 0){
+                            if(pokemonList.size > 3){
                                 progressBar.visibility = View.GONE
                                 txtprogress.visibility = View.GONE
                             }
