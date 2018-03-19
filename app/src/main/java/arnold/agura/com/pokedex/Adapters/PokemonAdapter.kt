@@ -42,7 +42,6 @@ class PokemonAdapter(private val mContext: Context, var pokemonList: ArrayList<P
         holder?.itemView?.cardViewPoke?.setOnClickListener(object: View.OnClickListener{
             override fun onClick(p0: View?) {
                         ma.showPokeDetail(pokemon.name.toString())
-                Toast.makeText(mContext,"atay",Toast.LENGTH_LONG).show()
             }
 
         })

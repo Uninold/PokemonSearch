@@ -40,7 +40,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Toast.makeText(this@MainActivity,"atay", Toast.LENGTH_LONG).show()
 
 
             var url =  "https://pokeapi.co/api/v2/pokemon/"

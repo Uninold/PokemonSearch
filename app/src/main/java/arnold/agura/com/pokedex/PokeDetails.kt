@@ -6,6 +6,9 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
+import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import arnold.agura.com.pokedex.Adapters.PokeEvolAdapter
 import arnold.agura.com.pokedex.Adapters.PokeStatAdapter
 import arnold.agura.com.pokedex.Adapters.PokeTypeAdapter
@@ -59,11 +62,16 @@ class PokeDetails : AppCompatActivity() {
             override fun onResponse(call: Call?, response: Response?) {
                 if(response !=null && response.isSuccessful)
                 {
+
                     val json = response.body()?.string()
                     val gson = GsonBuilder().create()
                     pokemon =  gson.fromJson(json, Pokemon::class.java)
                     fetchSpecies(pokemon.name)
                     runOnUiThread{
+                        progress2.visibility = View.GONE
+                        relativeDetail.visibility = View.VISIBLE
+                        relative1.visibility = View.VISIBLE
+                        relative2.visibility = View.VISIBLE
                         val oray = pokemon.name
                         println(pokemon.toString())
                         txtPokeName.text = pokemon.name.substring(0,1).toUpperCase() + pokemon.name.substring(1)
@@ -100,6 +108,9 @@ class PokeDetails : AppCompatActivity() {
 
 
                     }
+
+                }
+                else{
 
                 }
             }
