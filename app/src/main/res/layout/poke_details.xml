@@ -194,16 +194,7 @@
             android:layout_below="@id/lblHabitat"/>
     </RelativeLayout>
 
-        <TextView
-            android:id="@+id/lblAbility"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ABILITIES"
-            android:textAlignment="center"
-            android:fontFamily="@font/montserrat"
-            android:textSize="20dp"
-            android:visibility="gone"
-            android:textStyle="bold"/>
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerviewStat"
@@ -212,6 +203,16 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+    <TextView
+        android:id="@+id/lblAbility"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="ABILITIES"
+        android:textAlignment="center"
+        android:fontFamily="@font/montserrat"
+        android:textSize="20dp"
+        android:visibility="gone"
+        android:textStyle="bold"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_abilities"
         android:layout_width="match_parent"
